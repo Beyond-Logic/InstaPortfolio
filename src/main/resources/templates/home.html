@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="utf-8">
+    <script src="https://use.fontawesome.com/e5f42623c2.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://beyond-logic.github.io/mycss/instaporfolio.css">
+    <title>InstaPortfolio - For creatives & professionals</title>
+</head>
+<body>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="logo">
+                <h1 class="welcome welcome-logo-Insta logo-Insta mt-5">Insta</h1>
+                <h1 class="welcome logo-Portfolio">Portfolio</h1>
+                <div sec:authorize="isAuthenticated()">
+                    <form id="logoutForm" method="POST" th:action="@{/logout}">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+                    <span>Welcome</span><p class="welcome-tagline logo-tagline mt-4 mb-5"><span sec:authentication="name"></span></p>
+                </div>
+                  </div>
+            <div class="buttons">
+                <div class="row">
+                    <div class="col-6">
+                        <a href="/portfolio" class="btn welcome-login btn-block btn-login-signup">Portfolio</a>
+                    </div>
+                    <div class="col-6">
+                        <a onclick="document.forms['logoutForm'].submit()" class=" welcome-login btn btn-block btn-login-signup">Logout</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="welcome-footer mt-4 text-right">
+        <div class="footer-links text-right mr-5">
+            <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">How it Works</a></li>
+
+            <li class="nav-item"><a class="nav-link" href="#">Terms & Condition</a></li>
+            <li class="nav-item"><a class="nav-link "href="#">Privacy</a></li>
+        </div>
+    </div>
+</div>
+</body>
+</html>

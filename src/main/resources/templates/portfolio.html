@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="utf-8">
+  <script src="https://use.fontawesome.com/e5f42623c2.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://beyond-logic.github.io/mycss/instaporfolio.css">
+  <title>InstaPortfolio @Username</title>
+  <style>
+
+    .badge {
+      display: inline-block;
+      padding: .35em .65em;
+      font-size: .75em;
+      font-weight: 700;
+      line-height: 1;
+      background-color: #172B8E !important;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border-radius: .25rem;
+      margin-left: -18px;
+    }
+
+    b {
+      color: #959595;
+      padding: 2px;
+      margin-right: 15px;
+    }
+    .portfolio-description {
+      font-size: 16px;
+      margin-bottom: 22px;
+      word-wrap: break-word;
+      color: #696969;
+    }
+
+    .portfolio-item-text {
+      color: #191919;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .fa {
+      font-size: 30px !important;
+      padding: 10px !important;
+    }
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div sec:authorize="isAuthenticated()">
+    <form id="logoutForm" method="POST" th:action="@{/logout}">
+      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    </form>
+  </div>
+</div>
+<div class="contaner-fluid">
+  <nav class="navbar navbar-expand-lg navbar-light navbg">
+    <div class="container">
+      <a class="navbar-brand" href="/"><span class="insta">Insta</span><span class="portfolio">Portfolio</span></a>
+
+      <ul class="navbar-nav mr-auto">
+
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="/profile">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/portfolio">PortFolio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/portfolioItemForm">Add Project</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class ="myaccount ml-3" src="https://beyond-logic.github.io/mycss/Edema_Logic.jpeg" alt="profilephoto"></a>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <p class="ml-3 username dropdown-item">@decoslim</p>
+            <a class="dropdown-item" href="/portfolio">Profile</a>
+            <a class="dropdown-item" href="#">Edit Profile</a>
+            <a class="dropdown-item" href="#">Settings</a>
+            <a class="dropdown-item" href="#">Help</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" onclick="document.forms['logoutForm'].submit()">Logout</a>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<div class="container">
+  <div class="row mt-5 mb-5">
+    <div class="col-lg-4 col-sm-12">
+      <div class="profileinfo mt-4 mb-4">
+        <img src="https://beyond-logic.github.io/mycss/Edema_Logic.jpeg" alt="">
+        <h2><span sec:authentication="name"></span></h2>
+        <p>Front-End Developer</p>
+        <span class="profile-url"><a href="https://edemaero.website/">https://edemaero.website</a></span>
+        <p class="mt-3">Benin City, Nigeria</p>
+        <div class="profilebio text-left mt-5">
+          <p class="mb-2 aboutme">About Me</p>
+          <p>Professonal webdesigner with over 5 years experience. Available for freelance works.</p>
+          <div class="profile-social-media pt-3">
+            <a href="https://facebook.com/ero.edema" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="https://twitter.com/ero.edema" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a href="https://twitter.com/ero.edema" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8 col-sm-12">
+      <div class="text-left">
+        <h2 class="mt-3">Work</h2>
+        <p class="mb-3">You have <span th:text="${numberOfItems}"></span> items in your portfolio</p>
+      </div>
+
+          <div th:each="portfolioItem : ${portfolioItemLists}" class="shadow p-3 mb-5 bg-body rounded mb-4">
+            <h2><span class="badge title-badge bg-secondary mb-2" th:text="${portfolioItem.title}"></span></h2>
+            <p class="portfolio-info"> <span class="portfolio-description" th:text="${portfolioItem.description}"></span><br><br></p>
+            <p class="portfolio-info"><b>Project Type </b> <span class="portfolio-item-text" th:text="${portfolioItem.projectType}"></span></p>
+            <p class="portfolio-info"><b>Tools </b> <span class="portfolio-item-text" th:text="${portfolioItem.tools}"></span></p>
+            <p class="portfolio-info"><b>Programming Language</b> <span class="portfolio-item-text" th:text="${portfolioItem.programmingLanguage}"></span></p>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="d-grid gap-2">
+                <a th:href="${portfolioItem.projectUrl}" target="_blank" class="btn btn-light ml-4 mt-3">Project URL</a>
+                </div>
+               </div>
+              <div class="col-lg-6">
+                <div class="d-grid gap-2">
+                <a th:href="@{/portfolioItemForm(id=${portfolioItem.id})}" class="btn btn-secondary mt-3">Update</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+    </div>
+  </div>
+</div>
+<div class="container footer text-center mb-3">
+  <a class="navbar-brand-footer" href="home.html"><span class="insta">Insta</span><span class="portfolio">Portfolio</span></a>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+</body>
+</html>
